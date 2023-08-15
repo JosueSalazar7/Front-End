@@ -14,9 +14,6 @@ export const Confirmar = () => {
     const verifyToken = async () => {
         try {
             const url = `${import.meta.env.VITE_BACKEND_URL}/confirmar/${token}`
-            //const url = `${import.meta.env.VITE_BACKEND_URL}/confirmar/${token}`
-            //const url = `http://localhost:5174/confirmar/${token}`
-            //const url = `http://localhost:3000/api/confirmar/${token}`
             const respuesta = await axios.get(url)
             setMensaje({ respuesta: respuesta.data.msg, tipo: true })
         } catch (error) {
