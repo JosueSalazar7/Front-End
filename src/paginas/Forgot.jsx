@@ -1,7 +1,34 @@
 import { Link } from 'react-router-dom'
+import { useState } from 'react'
+import axios from 'axios';
+import Mensaje from '../componets/Alertas/Mensaje';
+
 
 
 export const Forgot = () => {
+    const [mensaje, setMensaje] = useState({})
+	const [mail, setMail] = useState({})
+    
+    const handleChange = (e)=>{
+        setMail({
+            ...mail,
+            [e.target.name]:e.target.value
+        })
+    }
+
+    const handleSubmit = async(e) => {
+        e.preventDefault()
+
+        try {
+            const url = `${import.meta.env.VITE_BACKEND_URL}/recuperar-password`
+            const respuesta = await axios.post(url,mail)
+            setMensaje({respuesta:respuesta.data.msg,tipo:true})
+            setMail("")
+        } catch (error) { 
+            setMensaje({respuesta:error.response.data.msg,tipo:false})
+        }
+    }
+
     return (
         <>
             <div className="bg-white flex justify-center items-center w-1/2">
