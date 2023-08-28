@@ -27,10 +27,10 @@ export const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            const url = "https://backendveterinaria.onrender.com/API/registro"
+           // const url = "https://backend-exam-b2eg.onrender.com/API/registro"
           
             console.log("URL : ",url)
-            //const url = `${import.meta.env.VITE_BACKEND_URL}/registro`
+            const url = `${import.meta.env.VITE_BACKEND_URL}/registro`
             //const url = http//localhost:3000/api/registro
             //const url = "http://localhost:3000/api/registro"
             const respuesta = await axios.post(url, form)
