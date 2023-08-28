@@ -1,6 +1,8 @@
 import {Link} from 'react-router-dom'
+import AuthContext from '../context/AuthProvider'
 
 const Login = () => {
+    const {auth, setAuth} = useContext(AuthContext)
     return (
         <>
             <div className="w-1/2 h-screen bg-[url('/public/images/doglogin.jpg')] 
