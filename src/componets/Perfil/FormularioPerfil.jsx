@@ -1,4 +1,33 @@
+
+import { useContext, useState } from "react"
+import AuthContext from "../../context/AuthProvider"
+import Mensaje from "../Alertas/Mensaje"
+
+
 const FormularioPerfil = () => {
+    const FormularioPerfil = () => {
+        const {auth} = useContext(AuthContext)
+        const [form, setform] = useState({
+                    id: auth._id,
+            nombre: auth.nombre || "",
+            apellido:auth.apellido || "",
+            direccion: auth.direccion || "",
+            telefono: auth.telefono || "",
+            email: auth.email || ""
+        })
+        
+        const handleChange = (e) => {
+            setform({
+                ...form,
+                [e.target.name]: e.target.value
+            })
+        }
+        
+
+
+
+
+
     return (
         <form>
 
@@ -12,42 +41,65 @@ const FormularioPerfil = () => {
                     className='border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md mb-5'
                     placeholder='nombre'
                     name='nombre'
+                    value={form.nombre}
+                    onChange={handleChange}
                 />
             </div>
             <div>
                 <label
-                    htmlFor='nombre'
+                    htmlFor='apellido'
                     className='text-gray-700 uppercase font-bold text-sm'>Nombre: </label>
                 <input
-                    id='nombre'
+                    id='apellido'
                     type="text"
                     className='border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md mb-5'
-                    placeholder='nombre'
-                    name='nombre'
+                    placeholder='apellido'
+                    name='apellido'
+                    value={form.apellido}
+                    onChange={handleChange}
                 />
             </div>
             <div>
                 <label
-                    htmlFor='nombre'
+                    htmlFor='direccion'
                     className='text-gray-700 uppercase font-bold text-sm'>Nombre: </label>
                 <input
-                    id='nombre'
+                    id='direccion'
                     type="text"
                     className='border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md mb-5'
-                    placeholder='nombre'
-                    name='nombre'
+                    placeholder='direccion'
+                    name='direccion'
+                    value={form.direccion}
+                    onChange={handleChange}
                 />
             </div>
 
             <div>
                 <label
-                    htmlFor='detalles'
+                    htmlFor='telefono'
                     className='text-gray-700 uppercase font-bold text-sm'>Detalles: </label>
                 <textarea
-                    id='detalles'
+                    id='telefono'
+                    type="number"
+                    className='border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md mb-5'
+                    name='telefono'
+                    value={form.telefono}
+                    onChange={handleChange}
+                />
+            </div>
+
+            <div>
+                <label
+                    htmlFor='email'
+                    className='text-gray-700 uppercase font-bold text-sm'>Email: </label>
+                <input
+                    id='email'
                     type="text"
                     className='border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md mb-5'
-                    name='detalles'
+                    placeholder='email'
+                    name='email'
+                    value={form.email}
+                    onChange={handleChange}
                 />
             </div>
 
@@ -61,5 +113,6 @@ const FormularioPerfil = () => {
         </form>
     )
 }
+}
 
-export default FormularioPerfil
+export default FormularioPerfil 
