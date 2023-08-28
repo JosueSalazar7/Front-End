@@ -5,32 +5,43 @@ import Mensaje from "../Alertas/Mensaje"
 
 
 const FormularioPerfil = () => {
-    const FormularioPerfil = () => {
-        const {auth} = useContext(AuthContext)
-        const [form, setform] = useState({
-                    id: auth._id,
-            nombre: auth.nombre || "",
-            apellido:auth.apellido || "",
-            direccion: auth.direccion || "",
-            telefono: auth.telefono || "",
-            email: auth.email || ""
+    const [mensaje, setMensaje] = useState({})
+  const {auth,actualizarPerfil} = useContext(AuthContext)
+    const [form, setform] = useState({
+        id: auth._id,
+        nombre: auth.nombre || "",
+        apellido: auth.apellido || "",
+        direccion: auth.direccion || "",
+        telefono: auth.telefono || "",
+        email: auth.email || ""
+    })
+
+    const handleChange = (e) => {
+        setform({
+            ...form,
+            [e.target.name]: e.target.value
         })
-        
-        const handleChange = (e) => {
-            setform({
-                ...form,
-                [e.target.name]: e.target.value
-            })
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        if (Object.values(form).includes("")) {
+            setMensaje({ respuesta: "Todos los campos deben ser ingresados", tipo: false })
+            setTimeout(() => {
+                setMensaje({})
+            }, 3000);
+            return
         }
-        
-
-
-
-
+        const resultado = await actualizarPerfil(form)
+        setMensaje(resultado)
+        setTimeout(() => {
+            setMensaje({})
+        }, 3000);
+    }
 
     return (
-        <form>
-
+        <form onSubmit={handleSubmit}>
+            {Object.keys(mensaje).length > 0 && <Mensaje tipo={mensaje.tipo}>{mensaje.respuesta}</Mensaje>}
             <div>
                 <label
                     htmlFor='nombre'
@@ -112,7 +123,6 @@ const FormularioPerfil = () => {
 
         </form>
     )
-}
 }
 
 export default FormularioPerfil 
