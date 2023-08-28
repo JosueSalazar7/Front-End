@@ -23,7 +23,7 @@ export const Register = () => {
             [e.target.name]: e.target.value
         })
     }
-
+//jrthrt
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
