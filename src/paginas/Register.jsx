@@ -1,12 +1,10 @@
-import { useState } from 'react'
+//Cambio enlace
 import { Link } from 'react-router-dom'
+import { useState } from 'react'
 import axios from 'axios';
 import Mensaje from '../componets/Alertas/Mensaje'
 
-
 export const Register = () => {
-
-    const [mensaje, setMensaje] = useState({})
 
     const [form, setform] = useState({
         nombre: "",
@@ -24,35 +22,33 @@ export const Register = () => {
         })
     }
 
+    const [mensaje, setMensaje] = useState({})
+
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            const url = "https://backend-exam-b2eg.onrender.com/API/registro"
-          
-            console.log("URL : ",url)
-            //const url = `${import.meta.env.VITE_BACKEND_URL}/registro`
-            //const url = http//localhost:3000/api/registro
-            //const url = "http://localhost:3000/api/registro"
+            const url = `${import.meta.env.VITE_BACKEND_URL}/registro`
             const respuesta = await axios.post(url, form)
-            console.log("respuestas : ", respuesta)
             setMensaje({ respuesta: respuesta.data.msg, tipo: true })
             setform({})
         } catch (error) {
-            setMensaje({ respuesta: error.response?.data?.msg, tipo: false })
-            console.log(error)
+            setMensaje({ respuesta: error.response.data.msg, tipo: false })
         }
     }
-
 
     return (
         <>
             <div className="bg-white flex justify-center items-center w-1/2">
+
                 <div className="md:w-4/5 sm:w-full">
+
                     {Object.keys(mensaje).length > 0 && <Mensaje tipo={mensaje.tipo}>{mensaje.respuesta}</Mensaje>}
                     <h1 className="text-3xl font-semibold mb-2 text-center uppercase  text-gray-500">Welcome</h1>
                     <small className="text-gray-400 block my-4 text-sm">Please enter your details</small>
-                    
-                    <form onSubmit={handleSubmit}>
+
+
+                    <form onSubmit={handleSubmit} >
+
                         <div className="mb-3">
                             <label className="mb-2 block text-sm font-semibold" htmlFor="nombre">Nombre:</label>
                             <input type="text" id="nombre" name='nombre'
@@ -99,6 +95,7 @@ export const Register = () => {
                             <button className="bg-gray-500 text-slate-300 border py-2 w-full rounded-xl mt-5 hover:scale-105 duration-300 hover:bg-gray-900 hover:text-white">Register
                             </button>
                         </div>
+
                     </form>
 
 
