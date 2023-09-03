@@ -1,8 +1,8 @@
-import { Link } from "react-router-dom";
-import { useState } from "react";
-import { useForm, Controller } from "react-hook-form";
-import axios from "axios";
-import Mensaje from "../componets/Alertas/Mensaje";
+//Cambio enlace
+import { Link } from 'react-router-dom'
+import { useState } from 'react'
+import axios from 'axios';
+import Mensaje from '../componets/Alertas/Mensaje'
 
 export const Register = () => {
     const {
