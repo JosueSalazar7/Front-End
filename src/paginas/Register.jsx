@@ -1,29 +1,42 @@
-//Cambio enlace
-import { Link } from 'react-router-dom'
-import { useState } from 'react'
 import axios from 'axios';
-import Mensaje from '../componets/Alertas/Mensaje'
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useForm, Controller } from 'react-hook-form';
+import Mensaje from '../componets/Alertas/Mensaje';
 
 export const Register = () => {
+    const navigate = useNavigate();
+    // Inicializa useForm para gestionar el formulario
     const {
-        control,
         handleSubmit,
-        formState: { errors },
+        control, // Controla los campos del formulario
+        formState: { errors }, // Gestiona los errores
     } = useForm();
+
+    const [form, setForm] = useState({
+        nombre: '',
+        apellido: '',
+        direccion: '',
+        telefono: '',
+        email: '',
+        password: '',
+    });
+
+    const handleChange = (e) => {
+        setForm({
+            ...form,
+            [e.target.name]: e.target.value,
+        });
+    };
+
     const [mensaje, setMensaje] = useState({});
 
     const onSubmit = async (data) => {
-        const trimmedData = Object.keys(data).reduce((acc, key) => {
-            acc[key] = typeof data[key] === 'string' ? data[key].trim() : data[key];
-            return acc;
-        }, {});
         try {
             const url = `${import.meta.env.VITE_BACKEND_URL}/registro`;
-            const respuesta = await axios.post(url, trimmedData);
+            const respuesta = await axios.post(url, data);
             setMensaje({ respuesta: respuesta.data.msg, tipo: true });
-            setTimeout(() => {
-                setMensaje({});
-            }, 3000);
+            setForm({});
         } catch (error) {
             setMensaje({ respuesta: error.response.data.msg, tipo: false });
         }
@@ -31,36 +44,36 @@ export const Register = () => {
 
     return (
         <>
+
             <div className="bg-white flex justify-center items-center w-1/2">
                 <div className="md:w-4/5 sm:w-full">
                     {Object.keys(mensaje).length > 0 && (
                         <Mensaje tipo={mensaje.tipo}>{mensaje.respuesta}</Mensaje>
                     )}
                     <h1 className="text-3xl font-semibold mb-2 text-center uppercase  text-gray-500">
-                        Bienvenido
+                        Welcome
                     </h1>
                     <small className="text-gray-400 block my-4 text-sm">
-                        Por favor ingresa tus datos
+                        Please enter your details
                     </small>
 
-                    {/* <form onSubmit={handleSubmit}> */}
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="mb-3">
                             <label
                                 htmlFor="nombre"
                                 className="mb-2 block text-sm font-semibold"
                             >
-                                Nombre:
+                                Full name:
                             </label>
                             <Controller
                                 name="nombre"
                                 control={control}
                                 defaultValue=""
                                 rules={{
-                                    required: 'Este campo es obligatorio',
+                                    required: 'Campo Obligatorio',
                                     pattern: {
                                         value: /^[A-Za-z\s]+$/,
-                                        message: 'Ingresa solo letras en este campo',
+                                        message: 'Only letters are accepted',
                                     },
                                 }}
                                 render={({ field }) => (
@@ -68,8 +81,8 @@ export const Register = () => {
                                         <input
                                             {...field}
                                             type="text"
-                                            placeholder="Ingresa tu nombre"
-                                            maxLength={40}
+                                            placeholder="Enter your name"
+                                            maxLength={20}
                                             className={`block w-full rounded-md border ${errors.nombre ? 'border-red-500' : 'border-gray-300'
                                                 } focus:border-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-700 py-1 px-1.5 text-gray-500`}
                                             required
@@ -85,17 +98,17 @@ export const Register = () => {
                                 className="mb-2 block text-sm font-semibold"
                                 htmlFor="apellido"
                             >
-                                Apellido:
+                                Last name:
                             </label>
                             <Controller
                                 name="apellido"
                                 control={control}
                                 defaultValue=""
                                 rules={{
-                                    required: "Este campo es obligatorio",
+                                    required: "Obligatory field",
                                     pattern: {
                                         value: /^[A-Za-z\s]+$/,
-                                        message: 'Ingresa solo letras en este campo',
+                                        message: 'Only letters are accepted',
                                     },
                                 }}
                                 render={({ field }) => (
@@ -103,8 +116,8 @@ export const Register = () => {
                                         <input
                                             {...field}
                                             type="text"
-                                            placeholder="Ingresa tu apellido"
-                                            maxLength={40}
+                                            placeholder="Enter your last name"
+                                            maxLength={20}
                                             className={`block w-full rounded-md border ${errors.apellido ? "border-red-500" : "border-gray-300"
                                                 } focus:border-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-700 py-1 px-1.5 text-gray-500`}
                                             required
@@ -122,22 +135,22 @@ export const Register = () => {
                                 className="mb-2 block text-sm font-semibold"
                                 htmlFor="direccion"
                             >
-                                Dirección:
+                                Address:
                             </label>
                             <Controller
                                 name="direccion"
                                 control={control}
                                 defaultValue=""
                                 rules={{
-                                    required: "Este campo es obligatorio"
+                                    required: "Obligatory field"
                                 }}
                                 render={({ field }) => (
                                     <div className="mb-3">
                                         <input
                                             {...field}
                                             type="text"
-                                            placeholder="Ingresa tu dirección"
-                                            maxLength={120}
+                                            placeholder="Enter your address"
+                                            maxLength={150}
                                             className={`block w-full rounded-md border ${errors.direccion ? "border-red-500" : "border-gray-300"
                                                 } focus:border-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-700 py-1 px-1.5 text-gray-500`}
                                             required
@@ -155,25 +168,25 @@ export const Register = () => {
                                 className="mb-2 block text-sm font-semibold"
                                 htmlFor="telefono"
                             >
-                                Teléfono:
+                                Phone:
                             </label>
                             <Controller
                                 name="telefono"
                                 control={control}
                                 defaultValue=""
                                 rules={{
-                                    required: "Este campo es obligatorio",
+                                    required: "Obligatory field",
                                     pattern: {
-                                        value: /^[0-9]{1,15}$/,
-                                        message: 'Ingresa solo números en este campo (hasta 15 dígitos)',
+                                        value: /^[0-9]{10}$/,
+                                        message: 'Valid phone with 10 digits',
                                     },
                                 }}
                                 render={({ field }) => (
                                     <div className="mb-3">
                                         <input
                                             {...field}
-                                            type="number"
-                                            placeholder="Ingresa tu teléfono"
+                                            type="text" 
+                                            placeholder="Enter your phone"
                                             className={`block w-full rounded-md border ${errors.telefono ? "border-red-500" : "border-gray-300"
                                                 } focus:border-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-700 py-1 px-1.5 text-gray-500`}
                                             required
@@ -198,14 +211,14 @@ export const Register = () => {
                                 control={control}
                                 defaultValue=""
                                 rules={{
-                                    required: "Este campo es obligatorio",
+                                    required: "Obligatory field",
                                     pattern: {
                                         value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-                                        message: "Formato de correo electrónico inválido",
+                                        message: "Invalid email",
                                     },
                                     maxLength: {
-                                        value: 60,
-                                        message: "El email debe tener un máximo de 60 caracteres",
+                                        value: 100,
+                                        message: "Maximum length reached",
                                     },
                                 }}
                                 render={({ field }) => (
@@ -213,8 +226,8 @@ export const Register = () => {
                                         <input
                                             {...field}
                                             type="email"
-                                            placeholder="Introduce tu correo electrónico"
-                                            maxLength={60} 
+                                            placeholder="Enter your email"
+                                            maxLength={100}
                                             className={`block w-full rounded-md border ${errors.email ? "border-red-500" : "border-gray-300"
                                                 } focus:border-purple-700 focus:outline-none focus:ring-1 focus:ring-purple-700 py-1 px-1.5 text-gray-500`}
                                         />
@@ -231,17 +244,17 @@ export const Register = () => {
                                 className="mb-2 block text-sm font-semibold"
                                 htmlFor="password"
                             >
-                                Contraseña:
+                                Password:
                             </label>
                             <Controller
                                 name="password"
                                 control={control}
                                 defaultValue=""
                                 rules={{
-                                    required: "Este campo es obligatorio",
+                                    required: "Obligatory field",
                                     maxLength: {
-                                        value: 60,
-                                        message: "La contraseña debe tener un máximo de 60 caracteres",
+                                        value: 50,
+                                        message: "Maximum length reached",
                                     },
                                 }}
                                 render={({ field }) => (
@@ -266,7 +279,7 @@ export const Register = () => {
 
                         <div className="mb-3">
                             <button className="bg-gray-500 text-slate-300 border py-2 w-full rounded-xl mt-5 hover:scale-105 duration-300 hover:bg-gray-900 hover:text-white">
-                                Registrate
+                                Register
                             </button>
                         </div>
                     </form>
@@ -274,12 +287,12 @@ export const Register = () => {
                     <div className="mt-5 text-xs border-b-2 py-4 "></div>
 
                     <div className="mt-3 text-sm flex justify-between items-center">
-                        <p>¿Ya tienes una cuenta?</p>
+                        <p>You've already an account?</p>
                         <Link
                             to="/login"
                             className="py-2 px-5 bg-gray-500 text-slate-300 border rounded-xl hover:scale-110 duration-300 hover:bg-gray-900 "
                         >
-                            iniciar sesión
+                            Login
                         </Link>
                     </div>
                 </div>
