@@ -1,4 +1,3 @@
-import React from 'react'
 import { Formulario } from '../componets/Formulario'
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -31,26 +30,25 @@ const Actualizar = () => {
         }
         consultarPaciente()
     }, [])
-   
 
     return (
         <div>
-        <h1 className='font-black text-4xl text-gray-500'>Actualizar Paciente</h1>
-        <hr className='my-4' />
-        <p className='mb-8'>Este módulo te permite actualizar los datos de un paciente registrado</p>
-        {
-            Object.keys(paciente).length != 0 ?
-                (
-                    <Formulario paciente={paciente}/>
-                )
-                :
-                (
-                    Object.keys(mensaje).length > 0 && <Mensaje tipo={mensaje.tipo}>{mensaje.respuesta}</Mensaje>
-                )
-        }
-    </div>
+            <h1 className='font-black text-4xl text-gray-500'>Actualizar Paciente</h1>
+            <hr className='my-4' />
+            <p className='mb-8'>Este módulo te permite actualizar los datos de un paciente registrado</p>
+            {
+                Object.keys(paciente).length != 0 ?
+                    (
+                        <Formulario paciente={paciente}/>
+                    )
+                    :
+                    (
+                        Object.keys(mensaje).length > 0 && <Mensaje tipo={mensaje.tipo}>{mensaje.respuesta}</Mensaje>
+                    )
+            }
+        </div>
 
-)
+    )
 }
 
 export default Actualizar

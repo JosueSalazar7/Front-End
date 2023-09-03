@@ -9,7 +9,7 @@ const Listar = () => {
             <p className='mb-8'>Este módulo te permite listar los pacientes registrados</p>
             <Tabla/>
         </div>
-    )
+      )
 }
 
 export default Listar

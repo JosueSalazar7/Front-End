@@ -5,10 +5,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Mensaje from '../componets/Alertas/Mensaje';
 
-
-
 export const Confirmar = () => {
-
     const { token } = useParams();
     const [mensaje, setMensaje] = useState({})
     const verifyToken = async () => {
@@ -18,13 +15,11 @@ export const Confirmar = () => {
             setMensaje({ respuesta: respuesta.data.msg, tipo: true })
         } catch (error) {
             setMensaje({ respuesta: error.response.data.msg, tipo: false })
-
         }
     }
     useEffect(() => {
         verifyToken()
     }, [])
-
 
     return (
 
