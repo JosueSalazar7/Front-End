@@ -5,7 +5,7 @@ import AuthContext from "../context/AuthProvider";
 import axios from 'axios';
 import Mensaje from "./Alertas/Mensaje";
 
-export const Formulario = () => {
+export const Formulario = ({paciente}) => {
     const { auth } = useContext(AuthContext);
     const navigate = useNavigate();
     const { handleSubmit, control } = useForm();
